@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Romantic Starry Night</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Google Fonts: Great Vibes for romantic cursive font -->
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+  <!-- Anime.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    /* Starry background */
+    .stars {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .star {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: twinkle 2s infinite alternate;
+    }
+
+    @keyframes twinkle {
+      0% { opacity: 0.2; }
+      100% { opacity: 0.8; }
+    }
+
+    /* Hearts */
+    .heart {
+      position: absolute;
+      color: #ff4d4d;
+      font-size: 2rem;
+      text-shadow: 0 0 10px rgba(255, 77, 77, 0.8);
+      cursor: pointer;
+    }
+
+    /* Romantic phrases */
+    .phrase {
+      position: absolute;
+      color: #fff;
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      text-shadow: 0 0 15px rgba(255, 255, 255, 0.7), 0 0 25px rgba(255, 77, 77, 0.5);
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
+    /* Special message */
+    .special-message {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #ff4d4d;
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(2rem, 5vw, 3rem);
+      text-shadow: 0 0 20px rgba(255, 77, 77, 0.8);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    /* Small images */
+    .small-image {
+      position: absolute;
+      width: 100px;
+      height: auto;
+      opacity: 0;
+      z-index: 1000;
+      pointer-events: none;
+      border-radius: 15px; /* Added rounded corners */
+    }
+
+    /* Ensure responsiveness */
+    @media (max-width: 768px) {
+      .phrase {
+        font-size: clamp(1rem, 3vw, 1.5rem);
+      }
+      .heart {
+        font-size: 1.5rem;
+      }
+      .special-message {
+        font-size: clamp(1.5rem, 4vw, 2rem);
+      }
+      .small-image {
+        width: 60px;
+        border-radius: 10px; /* Adjusted for smaller screens */
+      }
+    }
+
+    /* 3D container for layering */
+    .scene {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      perspective: 1000px;
+    }
+  </style>
+</head>
+<body>
+  <div class="scene">
+    <div class="stars"></div>
+    <div class="container text-center">
+      <div id="phrases"></div>
+      <div id="hearts"></div>
+      <div class="special-message" id="specialMessage">Chúc bé iu của anh 1/6 vui vẻ</div>
+      <div id="imageContainer"></div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS and Popper.js -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // List of image URLs
+    const imageUrls = [
+      './image1.jpg',
+      './image2.jpg',
+      './image3.jpg',
+      './image1.jpg',
+      './image2.jpg',
+      './image3.jpg',
+      './image4 (1).jpg',
+      './image4 (2).jpg',
+      './image4 (3).jpg',
+      './image4 (4).jpg',
+      './image4 (5).jpg',
+      './image4 (6).jpg',
+    ];
+
+    // Generate stars
+    const starsContainer = document.querySelector('.stars');
+    const numStars = 200;
+
+    for (let i = 0; i < numStars; i++) {
+      const star = document.createElement('div');
+      star.className = 'star';
+      star.style.width = `${Math.random() * 3 + 1}px`;
+      star.style.height = star.style.width;
+      star.style.left = `${Math.random() * 100}vw`;
+      star.style.top = `${Math.random() * 100}vh`;
+      star.style.animationDelay = `${Math.random() * 2}s`;
+      starsContainer.appendChild(star);
+    }
+
+    // Romantic phrases
+    // const phrases = [
+    //   "Diệp yêu Phương",
+    //   "Anh yêu em rất nhiều",
+    //   "Em là cả thế giới của anh",
+    //   "Tình yêu của anh dành cho em là vô tận",
+    //   "Bên em là điều hạnh phúc nhất cuộc đời anh",
+    //   "Phạm Hiểu Phương Anh yêu em",
+    //   "Em là ánh sáng của cuộc đời anh",
+    //   "Trái tim anh chỉ đập vì em",
+    //   "Yêu em đến mãi mãi",
+    //   "Em là giấc mơ ngọt ngào nhất của anh",
+    //   "Anh sẽ mãi bên em, mãi mãi",
+    //   "Em là ngôi sao sáng nhất của anh",
+    //   "Tình yêu của chúng ta như bầu trời đêm",
+    //   "Anh nguyện dành cả đời để yêu thương em",
+    //   "Em là nhịp đập của trái tim anh",
+    //   "Mỗi ngày bên em là một ngày hạnh phúc",
+    //   "Anh yêu nụ cười của em",
+    //   "Em là tất cả những gì anh mơ ước",
+    //   "Tình yêu của anh là dành cho em mãi mãi",
+    //   "Bên em, anh tìm thấy ý nghĩa cuộc đời",
+    //   "Em là định mệnh của anh",
+    //   "Yêu em là điều tuyệt vời nhất anh từng làm"
+    // ];
+    // Lời chúc 1/6 ngắn gọn dành cho em yêu
+const phrases = [
+  "Diệp yêu Phương",
+  "Anh yêu em rất nhiều",
+  "Chúc em 1/6 vui vẻ!",
+  "Yêu em nhất trên đời!",
+  "Em là niềm vui của anh!",
+  "1/6 chỉ cần em vui thôi!",
+  "Em là công chúa của anh!",
+  "Tặng em ngàn cái ôm!",
+  "Em luôn đáng yêu nhất!",
+  "Diệp yêu Phương",
+  "Anh mãi cưng chiều em!",
+  "Em ơi, yêu em nhiều lắm!",
+  "Em là cả thế giới của anh!",
+  "Diệp yêu Phương",
+  "Em là công chúa của anh!",
+  "Tặng em ngàn cái ôm!",
+  "Em luôn đáng yêu nhất!",
+  "Anh mãi cưng chiều em!",
+  "Diệp yêu Phương",
+  "Em ơi, yêu em nhiều lắm!",
+  "Em là cả thế giới của anh!"
+];
+
+
+    const phrasesContainer = document.getElementById('phrases');
+    phrases.forEach((text, index) => {
+      const phrase = document.createElement('div');
+      phrase.className = 'phrase';
+      phrase.textContent = text;
+      phrase.style.left = `${Math.random() * 100}vw`;
+      phrase.style.top = `${Math.random() * 100}vh`;
+      phrase.style.zIndex = Math.floor(Math.random() * 10);
+      phrase.style.transform = `translateZ(${Math.random() * 200 - 100}px) scale(${0.7 + Math.random() * 0.3})`;
+      phrasesContainer.appendChild(phrase);
+    });
+
+    // Generate hearts
+    const heartsContainer = document.getElementById('hearts');
+    const numHearts = 20;
+
+    for (let i = 0; i < numHearts; i++) {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.innerHTML = '♥';
+      heart.style.left = `${Math.random() * 100}vw`;
+      heart.style.top = `${Math.random() * 100}vh`;
+      heart.style.zIndex = Math.floor(Math.random() * 10);
+      heart.style.transform = `translateZ(${Math.random() * 200 - 100}px) scale(${0.5 + Math.random() * 0.5})`;
+      heart.style.opacity = 0.7 + Math.random() * 0.3;
+      heartsContainer.appendChild(heart);
+    }
+
+    // Animate phrases
+    document.querySelectorAll('.phrase').forEach(phrase => {
+      anime({
+        targets: phrase,
+        translateX: () => anime.random(-200, 200),
+        translateY: () => anime.random(-200, 200),
+        translateZ: () => anime.random(-100, 100),
+        duration: () => anime.random(10000, 20000),
+        easing: 'easeInOutSine',
+        direction: 'alternate',
+        loop: true
+      });
+    });
+
+    // Animate hearts
+    document.querySelectorAll('.heart').forEach(heart => {
+      anime({
+        targets: heart,
+        translateX: () => anime.random(-150, 150),
+        translateY: () => anime.random(-150, 150),
+        translateZ: () => anime.random(-100, 100),
+        duration: () => anime.random(8000, 15000),
+        easing: 'easeInOutQuad',
+        direction: 'alternate',
+        loop: true
+      });
+    });
+
+    // Heart rain and special message on click
+    const specialMessage = document.getElementById('specialMessage');
+    const imageContainer = document.getElementById('imageContainer');
+
+    document.querySelectorAll('.heart').forEach(heart => {
+      heart.addEventListener('click', () => {
+        // Show special message
+        anime({
+          targets: specialMessage,
+          opacity: [0, 1],
+          scale: [0.5, 1],
+          duration: 1000,
+          easing: 'easeOutElastic(1, .8)',
+          complete: () => {
+            anime({
+              targets: specialMessage,
+              opacity: 0,
+              duration: 1000,
+              delay: 3000,
+              easing: 'easeOutQuad'
+            });
+          }
+        });
+
+        // Show multiple small images
+        const numImages = 10; // Number of images to scatter
+        for (let i = 0; i < numImages; i++) {
+          const img = document.createElement('img');
+          img.className = 'small-image';
+          img.src = imageUrls[Math.floor(Math.random() * imageUrls.length)]; // Randomly select an image
+          img.style.left = `${Math.random() * 100}vw`;
+          img.style.top = `${Math.random() * 100}vh`;
+          img.style.transform = `translateZ(${Math.random() * 200 - 100}px) scale(${0.8 + Math.random() * 0.4})`;
+          imageContainer.appendChild(img);
+
+          anime({
+            targets: img,
+            opacity: [0, 1],
+            scale: [0.5, 1],
+            duration: 1000,
+            easing: 'easeOutElastic(1, .8)',
+            complete: () => {
+              anime({
+                targets: img,
+                opacity: 0,
+                duration: 1000,
+                delay: 3000,
+                easing: 'easeOutQuad',
+                complete: () => {
+                  img.remove();
+                }
+              });
+            }
+          });
+        }
+
+        // Heart rain effect
+        for (let i = 0; i < 30; i++) {
+          const rainHeart = document.createElement('div');
+          rainHeart.className = 'heart';
+          rainHeart.innerHTML = '♥';
+          rainHeart.style.left = `${Math.random() * 100}vw`;
+          rainHeart.style.top = '-10vh';
+          rainHeart.style.zIndex = Math.floor(Math.random() * 10);
+          rainHeart.style.opacity = 0.7 + Math.random() * 0.3;
+          heartsContainer.appendChild(rainHeart);
+
+          anime({
+            targets: rainHeart,
+            translateY: '110vh',
+            rotate: () => anime.random(-45, 45),
+            duration: () => anime.random(2000, 4000),
+            easing: 'easeInQuad',
+            complete: () => {
+              rainHeart.remove();
+            }
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
